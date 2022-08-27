@@ -90,6 +90,11 @@ int *updates = NULL; /* What does this do again? */
 #ifndef _WIN32
 volatile sig_atomic_t signal_status = 0; /* Indicates a caught signal */
 #endif
+#define LENGTH(X)               (sizeof X / sizeof X[0])
+const char *distro_icons[] = {" ", " ", " ", " ", " ", " ", " ", " ",
+                              " ", " ", " ", " ", " ", " ", " ", " ",
+                              " ", " ", " ", " ", " ", " ", " ", " ",
+                              " ", " "};
 
 int va_system(char *str, ...) {
 
@@ -219,7 +224,7 @@ void var_init() {
 
     /* Make the matrix */
     for (i = 0; i <= LINES; i++) {
-        for (j = 0; j <= COLS - 1; j += 2) {
+        for (j = 0; j <= COLS - 1; j += 3) {
             matrix[i][j].val = -1;
         }
     }
@@ -652,7 +657,7 @@ if (console) {
                 }
             }
         }
-        for (j = 0; j <= COLS - 1; j += 2) {
+        for (j = 0; j <= COLS - 1; j += 3) {
             if ((count > updates[j] || asynch == 0) && pause == 0) {
 
                 /* I don't like old-style scrolling, yuck */
@@ -832,7 +837,7 @@ if (console) {
                         if (matrix[i][j].val == -1) {
                             addch(' ');
                         } else if (lambda && matrix[i][j].val != ' ') {
-                            addstr("λ");
+                            addstr(distro_icons[rand() % LENGTH(distro_icons)]);
                         } else {
                             addch(matrix[i][j].val);
                         }

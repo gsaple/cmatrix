@@ -1,0 +1,4 @@
+#!/bin/sh
+#autoreconf -i  # only run for the first time 
+#./configure # only run for the first time
+gcc -lncursesw -o cmatrix cmatrix.c
