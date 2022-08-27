@@ -527,8 +527,11 @@ if (console) {
     /* Set up values for random number generation */
     if (classic) {
         /* Japanese character unicode range [they are seen in the original cmatrix] */
-        randmin = 12288;
-        highnum = 12351;
+	/* add only Katakana font */
+        /* source http://www.rikai.com/library/kanjitables/kanji_codes.unicode.shtml */
+        randmin = 0x30a0;
+        highnum = 0x3100;
+
     } else if (console || xwindow) {
         randmin = 166;
         highnum = 217;
@@ -838,7 +841,12 @@ if (console) {
                             addch(' ');
                         } else if (lambda && matrix[i][j].val != ' ') {
                             addstr(distro_icons[rand() % LENGTH(distro_icons)]);
-                        } else {
+                        } else if (classic && matrix[i][j].val != ' ') {
+                            wchar_t str[2] = L"\0"; //for japanese
+			    //char str[2] = "\0";   //for upstream GH demo
+                            str[0] = matrix[i][j].val;
+                            addwstr(str);
+			} else {
                             addch(matrix[i][j].val);
                         }
                         if (bold == 2 ||
